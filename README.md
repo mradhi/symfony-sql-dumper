@@ -4,5 +4,5 @@ Create MYSQL dumps on Symfony projects in Golang, by parsing parameters.yml file
 ### Usage Example
 ```console
 $ go build export.go
-$ ./export /path/to/parameters.yml /path/to/dumps [path_to_sock]
+$ ./export /path/to/parameters.yml /path/to/dumps [optional_path_to_sock]
 ```
