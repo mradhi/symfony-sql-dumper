@@ -48,10 +48,14 @@ func main() {
 		parameters.DatabasePort = "3306"
 	}
 
+	if parameters.DatabaseHost == "localhost" {
+		parameters.DatabaseHost = "127.0.0.1"
+	}
+
 	// Accepts time layout string and add .sql at the end of file
 	dumpFilenameFormat := fmt.Sprintf("%s-20060102T150405", parameters.DatabaseName)
 
-	conStr := fmt.Sprintf("%s:%s@%s:%s/%s",
+	conStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
 		parameters.DatabaseUser,
 		parameters.DatabasePassword,
 		parameters.DatabaseHost,
