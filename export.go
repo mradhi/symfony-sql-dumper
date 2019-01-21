@@ -27,6 +27,9 @@ func main() {
 	// Directory contains the backups
 	dumpDir := os.Args[2]
 
+	// Check the type of the connection to mysql server.
+	socketConn := os.Args[3]
+
 	yamlParams := ConfigParamsYAML{}
 	// Read YAML configuration file to get db connection.
 	b, err := ioutil.ReadFile(yamlFile)
@@ -48,16 +51,19 @@ func main() {
 		parameters.DatabasePort = "3306"
 	}
 
-	if parameters.DatabaseHost == "localhost" {
-		parameters.DatabaseHost = "127.0.0.1"
+	if len(socketConn) > 0 {
+		parameters.DatabaseHost = fmt.Sprintf("unix(%s)", socketConn)
+	} else {
+		parameters.DatabaseHost = fmt.Sprintf("tcp(%s:%s)", parameters.DatabaseHost, parameters.DatabasePort)
 	}
 
 	// Accepts time layout string and add .sql at the end of file
 	dumpFilenameFormat := fmt.Sprintf("%s-20060102T150405", parameters.DatabaseName)
 
-	conStr := fmt.Sprintf("%s:%s@/%s",
+	conStr := fmt.Sprintf("%s:%s@%s/%s",
 		parameters.DatabaseUser,
 		parameters.DatabasePassword,
+		parameters.DatabaseHost,
 		parameters.DatabaseName)
 
 	fmt.Printf("Opening connection for: '%s' ...\n", conStr)
