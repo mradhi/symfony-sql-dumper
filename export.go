@@ -55,7 +55,7 @@ func main() {
 	// Accepts time layout string and add .sql at the end of file
 	dumpFilenameFormat := fmt.Sprintf("%s-20060102T150405", parameters.DatabaseName)
 
-	conStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+	conStr := fmt.Sprintf("%s:%s@%s:%s/%s",
 		parameters.DatabaseUser,
 		parameters.DatabasePassword,
 		parameters.DatabaseHost,
